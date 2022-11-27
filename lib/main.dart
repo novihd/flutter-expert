@@ -3,6 +3,8 @@ import 'package:core/pages/home_page.dart';
 import 'package:core/pages/watchlist_page.dart';
 import 'package:core/utils/routes.dart';
 import 'package:core/utils/utils.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,8 +37,12 @@ import 'package:series/presentation/pages/series_detail_page.dart';
 import 'package:series/presentation/pages/top_rated_series_page.dart';
 import 'package:series/presentation/pages/watchlist_series_page.dart';
 
-void main() {
+void main() async {
   di.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -70,7 +76,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistMovieBloc>(),
         ),
         //
-
         BlocProvider(
           create: (_) => di.locator<NowPlayingSeriesBloc>(),
         ),

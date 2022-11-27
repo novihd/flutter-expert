@@ -1,9 +1,10 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:core/core.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:http/io_client.dart';
 import '../models/season_detail_model.dart';
 import '../models/series_detail_response.dart';
 import '../models/series_model.dart';
@@ -27,8 +28,12 @@ class SeriesRemoteDataSourceImpl implements SeriesRemoteDataSource {
 
   @override
   Future<List<SeriesModel>> getNowPlayingSeries() async {
+    HttpClient client = HttpClient(context: await globalContext);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => false;
+    IOClient ioClient = IOClient(client);
     final response =
-        await client.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY'));
+        await ioClient.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY'));
     if (response.statusCode == 200) {
       return SeriesResponse.fromJson(json.decode(response.body)).seriesList;
     } else {
@@ -38,8 +43,12 @@ class SeriesRemoteDataSourceImpl implements SeriesRemoteDataSource {
 
   @override
   Future<List<SeriesModel>> getPopularSeries() async {
+    HttpClient client = HttpClient(context: await globalContext);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => false;
+    IOClient ioClient = IOClient(client);
     final response =
-        await client.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY'));
+        await ioClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY'));
     if (response.statusCode == 200) {
       return SeriesResponse.fromJson(json.decode(response.body)).seriesList;
     } else {
@@ -49,8 +58,12 @@ class SeriesRemoteDataSourceImpl implements SeriesRemoteDataSource {
 
   @override
   Future<List<SeriesModel>> getTopRatedSeries() async {
+    HttpClient client = HttpClient(context: await globalContext);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => false;
+    IOClient ioClient = IOClient(client);
     final response =
-        await client.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY'));
+        await ioClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY'));
     if (response.statusCode == 200) {
       return SeriesResponse.fromJson(json.decode(response.body)).seriesList;
     } else {
@@ -60,7 +73,11 @@ class SeriesRemoteDataSourceImpl implements SeriesRemoteDataSource {
 
   @override
   Future<SeriesDetailResponse> getSeriesDetail(int id) async {
-    final response = await client.get(Uri.parse('$BASE_URL/tv/$id?$API_KEY'));
+    HttpClient client = HttpClient(context: await globalContext);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => false;
+    IOClient ioClient = IOClient(client);
+    final response = await ioClient.get(Uri.parse('$BASE_URL/tv/$id?$API_KEY'));
     if (response.statusCode == 200) {
       return SeriesDetailResponse.fromJson(json.decode(response.body));
     } else {
@@ -70,7 +87,11 @@ class SeriesRemoteDataSourceImpl implements SeriesRemoteDataSource {
 
   @override
   Future<List<SeriesModel>> searchSeries(String query) async {
-    final response = await client
+    HttpClient client = HttpClient(context: await globalContext);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => false;
+    IOClient ioClient = IOClient(client);
+    final response = await ioClient
         .get(Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$query'));
     if (response.statusCode == 200) {
       return SeriesResponse.fromJson(json.decode(response.body)).seriesList;
@@ -82,7 +103,11 @@ class SeriesRemoteDataSourceImpl implements SeriesRemoteDataSource {
   @override
   Future<List<SeasonDetailModel>> getSeriesSeason(
       String tvId, String seasonNumber) async {
-    final response = await client
+    HttpClient client = HttpClient(context: await globalContext);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => false;
+    IOClient ioClient = IOClient(client);
+    final response = await ioClient
         .get(Uri.parse('$BASE_URL/tv/$tvId/season/$seasonNumber?$API_KEY'));
     if (response.statusCode == 200) {
       var data = json.decode(response.body)['episodes'] as List;
@@ -94,7 +119,11 @@ class SeriesRemoteDataSourceImpl implements SeriesRemoteDataSource {
 
   @override
   Future<List<SeriesModel>> getSeriesRecommendations(int id) async {
-    final response = await client
+    HttpClient client = HttpClient(context: await globalContext);
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => false;
+    IOClient ioClient = IOClient(client);
+    final response = await ioClient
         .get(Uri.parse('$BASE_URL/tv/$id/recommendations?$API_KEY'));
     if (response.statusCode == 200) {
       return SeriesResponse.fromJson(json.decode(response.body)).seriesList;

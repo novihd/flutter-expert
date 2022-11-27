@@ -61,7 +61,7 @@ class _MoviePageState extends State<MoviePage> {
             ),
             BlocBuilder<PopularMovieBloc, PopularMovieState>(
                 builder: (context, state) {
-              if (state is NowPlayingMovieLoading) {
+              if (state is PopularMovieLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );

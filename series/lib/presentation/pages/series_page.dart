@@ -66,7 +66,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 }),
             BlocBuilder<PopularSeriesBloc, PopularSeriesState>(
                 builder: (context, state) {
-              if (state is NowPlayingSeriesLoading) {
+              if (state is PopularSeriesLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
