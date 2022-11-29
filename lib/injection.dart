@@ -28,7 +28,7 @@ import 'package:core/features/series/domain/usecases/remove_watchlist_series.dar
 import 'package:core/features/series/domain/usecases/save_watchlist_series.dart';
 import 'package:core/utils/network_info.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:http/http.dart' as http;
+import 'package:core/utils/ssl_pinning.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movie/presentation/bloc/detail/detail_movie_bloc.dart';
 import 'package:movie/presentation/bloc/now_playing/now_playing_movie_bloc.dart';
@@ -126,7 +126,7 @@ void init() {
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => HttpSSLPinning.client);
 
   //network info
   locator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(locator()));

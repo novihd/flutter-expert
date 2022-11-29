@@ -1,10 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:core/core.dart';
 import 'package:core/utils/network_info.dart';
 import 'package:dartz/dartz.dart';
-
 import '../../domain/entities/movie.dart';
 import '../../domain/entities/movie_detail.dart';
 import '../../domain/repositories/movie_repository.dart';
@@ -32,6 +29,10 @@ class MovieRepositoryImpl implements MovieRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return Left(ServerFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(ServerFailure(e.toString()));
       }
     } else {
       try {
@@ -52,6 +53,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(ServerFailure('Certificated not valid\n${e.message}'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 
@@ -64,6 +69,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(ServerFailure('Certificated not valid\n${e.message}'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 
@@ -77,6 +86,10 @@ class MovieRepositoryImpl implements MovieRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return Left(ServerFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(ServerFailure(e.toString()));
       }
     } else {
       try {
@@ -95,10 +108,13 @@ class MovieRepositoryImpl implements MovieRepository {
         final result = await remoteDataSource.getTopRatedMovies();
         localDataSource.cacheTopMovies(
             result.map((movie) => MovieTable.fromDTO(movie)).toList());
-        log('message $result');
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return Left(ServerFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(ServerFailure(e.toString()));
       }
     } else {
       try {
@@ -119,6 +135,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(ServerFailure('Certificated not valid\n${e.message}'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 
